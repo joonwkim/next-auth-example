@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions: NextAuthOptions = {
-  // https://next-auth.js.org/configuration/providers/oauth
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -28,8 +27,8 @@ export const authOptions: NextAuthOptions = {
       }
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.GOOGLE_ID || " ",
+      clientSecret: process.env.GOOGLE_SECRET || " ",
     }),
   ],
   theme: {
@@ -38,13 +37,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token }) {
       token.userRole = "admin"
-      // console.log('callback jwt token:', JSON.stringify(token,null, 2))
       return token
     },
   },
-  // pages: {
-  //   signIn: '/signin'
-  // }
 }
 
 export default NextAuth(authOptions)
